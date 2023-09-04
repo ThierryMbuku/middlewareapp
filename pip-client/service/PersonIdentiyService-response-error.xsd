@@ -1,0 +1,41 @@
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/ResponseError/1.0" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"  xmlns:saj-sip="http://ijs.gov.za/schemas/sajsip/3.0.0" xmlns:saj="http://ijs.gov.za/schemas/sajxdm/2.0.0" xmlns="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/ResponseError/1.0">
+   <xsd:import schemaLocation="PersonIdentiyService-sajxdm2.xsd" namespace="http://ijs.gov.za/schemas/sajxdm/2.0.0">
+      <xsd:annotation>
+         <xsd:documentation source="model">SAJ domain data model definitions.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:import>
+   <xsd:import schemaLocation="PersonIdentiyService-sajsip3.xsd" namespace="http://ijs.gov.za/schemas/sajsip/3.0.0">
+      <xsd:annotation>
+         <xsd:documentation source="model">SAJ Service Interaction Profile: Base message format definitions.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:import>
+	<xsd:complexType name="PersonIdentityProfileResponseErrorType">
+		<xsd:annotation>
+			<xsd:documentation source="model">This message will be sent from DHA in case an error is encountered. more than one instance of the ID number was found, an error message must be returned, using this message.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="saj-sip:ResponseErrorMessageType">
+				<xsd:sequence>
+					<xsd:element name="Error">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element ref="saj:DHA_Error" maxOccurs="unbounded"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="PersonIdentityProfileResponseError">
+		<xsd:annotation>
+			<xsd:appinfo source="model">function:interface:message</xsd:appinfo>
+			<xsd:documentation source="model">This message will be sent from DHA in case an error is encountered. more than one instance of the ID number was found, an error message must be returned, using this message.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="PersonIdentityProfileResponseErrorType"/>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

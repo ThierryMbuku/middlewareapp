@@ -1,0 +1,83 @@
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/Response/1.0" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" xmlns:ns0="http://ijs.gov.za/schemas/sajxmlhubrelease/3.0" xmlns:saj-sip="http://ijs.gov.za/schemas/sajsip/3.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:saj="http://ijs.gov.za/schemas/sajxdm/2.0.0" xmlns="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/Response/1.0">
+   <xsd:import schemaLocation="PersonIdentiyService-sajxdm2.xsd" namespace="http://ijs.gov.za/schemas/sajxdm/2.0.0">
+      <xsd:annotation>
+         <xsd:documentation source="model">SAJ domain data model definitions.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:import>
+   <xsd:import schemaLocation="PersonIdentiyService-sajsip3.xsd" namespace="http://ijs.gov.za/schemas/sajsip/3.0.0">
+      <xsd:annotation>
+         <xsd:documentation source="model">SAJ Service Interaction Profile: Base message format definitions.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:import>
+   <xsd:annotation>
+      <xsd:appinfo>
+         <schemaInfo root_reference="PersonIdentityProfileResponse" xmlns="http://schemas.microsoft.com/BizTalk/2003"/>
+         <b:references>
+            <b:reference targetNamespace="http://ijs.gov.za/schemas/sajsip/3.0.0"/>
+            <b:reference targetNamespace="http://ijs.gov.za/schemas/sajxdm/2.0.0"/>
+         </b:references>
+      </xsd:appinfo>
+   </xsd:annotation>
+   <xsd:complexType name="MessagePayloadTypeRs">
+      <xsd:annotation>
+         <xsd:documentation source="model">Response information containing the person's profile as recorded by the DHA.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:restriction base="saj-sip:MessagePayloadType3">
+            <xsd:sequence>
+               <xsd:element ref="saj:DHA_PersonIdentityProfile"/>
+            </xsd:sequence>
+         </xsd:restriction>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="PersonIdentityProfileResponseType">
+      <xsd:annotation>
+         <xsd:documentation source="model">This message will be sent from DHA, and will be triggered and returned for every Person Identity Profile Request Message received, unless an error is encountered.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="saj-sip:ResponseMessageType">
+            <xsd:sequence>
+               <xsd:element ref="PayloadRs">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">Response information containing the person's profile as recorded by the DHA.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:element name="PayloadRs" type="MessagePayloadTypeRs">
+      <xsd:annotation>
+         <xsd:documentation source="model">Response information containing the person's profile as recorded by the DHA.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonIdentityProfileResponse">
+      <xsd:annotation>
+         <xsd:documentation source="model">This message will be sent from DHA, and will be triggered and returned for every Person Identity Profile Request Message received, unless an error is encountered.</xsd:documentation>
+         <xsd:appinfo/>
+      </xsd:annotation>
+      <xsd:complexType>
+         <xsd:complexContent mixed="false">
+            <xsd:restriction base="PersonIdentityProfileResponseType">
+               <xsd:sequence>
+                  <xsd:element ref="saj-sip:Header">
+                     <xsd:annotation>
+                        <xsd:documentation source="model">Message header. Always the first element of any SAJSIP message.</xsd:documentation>
+                     </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element ref="PayloadRs">
+                     <xsd:annotation>
+                        <xsd:documentation source="model">Response information containing the person's profile as recorded by the DHA.</xsd:documentation>
+                     </xsd:annotation>
+                  </xsd:element>
+               </xsd:sequence>
+               <xsd:attribute fixed="000064" ref="saj-sip:typeId" use="required">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">Six-digit identifier. Message type identifier. Is constant for all versions of the schema for this message. Values are pre-assigned by the IJS.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:attribute>
+            </xsd:restriction>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+</xsd:schema>

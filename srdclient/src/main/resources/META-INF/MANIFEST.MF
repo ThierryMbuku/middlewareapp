@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: 25.102-b14 (Oracle Corporation)
+Implementation-Vendor: Prosense
+Implementation-Title: srdclient
+Implementation-Version: 1.0
+Product-Name: srdclient
+Specification-Version: 1.0
+Extension-Name: srdclient

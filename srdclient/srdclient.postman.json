@@ -1,0 +1,340 @@
+{
+	"info": {
+		"_postman_id": "68f8c8ab-5504-4755-b338-1c4e81cf4279",
+		"name": "srdclient",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "tests",
+			"item": [
+				{
+					"name": "api",
+					"item": [
+						{
+							"name": "sarscompliances",
+							"item": [
+								{
+									"name": "enquire - sa",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "ca2d1326-7bf1-41f2-836a-c6a21f3d4ea2",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "f6ce6f4c-03dc-4db3-b947-b1b2b4a61cc2",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"outcomeId\": 5432151,\n    \"identificationType\": \"south_african_id_number\",\n    \"identificationNumber\": \"6003225058088\"\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/srdclient/api/sarscompliances",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdclient",
+												"api",
+												"sarscompliances"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "enquire - pp",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "b8809d9a-6286-4b9f-81fd-f54cb7454350",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "4e75ad89-29f0-468d-a384-3054accf018e",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"outcomeId\": 123461,\n    \"identificationType\": \"foreign_passport_number\",\n    \"identificationNumber\": \"10000001\",\n    \"countryOfIssue\": \"AFG\"\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/srdclient/api/sarscompliances",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdclient",
+												"api",
+												"sarscompliances"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "enquire - as",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "71b22181-ded8-4ee2-a5a2-e8572a85863c",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "af250686-4f7e-4bd7-9e32-6b78422842ee",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"outcomeId\": 123474,\n    \"identificationType\": \"asylum_permit_number\",\n    \"identificationNumber\": \"PTASOM001111111\"\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/srdclient/api/sarscompliances",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdclient",
+												"api",
+												"sarscompliances"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "enquire - error",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "2acc193a-5390-4803-8581-c0a8a9cd124a",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "53d46aa7-ae88-4c6f-a6bc-2057693d321f",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"outcomeId\": 12348,\n    \"identificationType\": \"south_african_id_number\",\n    \"identificationNumber\": \"ABC12345\"\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/srdclient/api/sarscompliances",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdclient",
+												"api",
+												"sarscompliances"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "4a098cc8-7372-4f80-aa42-a6e9adf6dc3b",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "72a72ed1-2a21-4c1f-bc59-9eda701591d4",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "aec83d25-92de-442f-8dc0-d8a8a1731a96",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "29347efa-9a40-4dc5-bb47-59b3177cb7a3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e1f5174e-86a4-4e44-8581-124680bc6924",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8a937489-f944-46bd-9c81-3cd0bcbec3ad",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

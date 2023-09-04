@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "48c553cc-828d-4a8e-8a46-e64a5efbf26f",
+		"name": "oaamwrapper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "tests",
+			"item": [
+				{
+					"name": "api",
+					"item": [
+						{
+							"name": "transactions",
+							"item": [
+								{
+									"name": "create",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "26bd034d-c3e3-43b4-b219-2cf8f111e7a4",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location', 'http://' + request.url + '/' + res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['id'] = req.id === res.id",
+													"tests['correlation'] = req.correlation === res.correlation",
+													"tests['domainUser'] = req.domainUser === res.domainUser",
+													"tests['socpenUser'] = req.socpenUser === res.socpenUser",
+													"tests['content'] = req.content === res.content",
+													"tests['detail'] = req.detail === res.detail",
+													"tests['type'] = req.type === res.type",
+													"tests['challenge'] = req.challenge === res.challenge",
+													"tests['hash'] = req.hash === res.hash",
+													"tests['state'] = req.state === res.state",
+													"tests['policy'] = req.policy === res.policy",
+													"tests['status'] = req.status === res.status",
+													"tests['cipher'] = req.cipher === res.cipher",
+													"tests['choice'] = req.choice === res.choice",
+													"tests['created'] = req.created === res.created",
+													"tests['creator'] = req.creator === res.creator",
+													"tests['updated'] = req.updated === res.updated",
+													"tests['updator'] = req.updator === res.updator",
+													"tests['properties'] = _.size(res) == 18"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"id\": 189,\n    \"domainUser\": \"testdomain\",\n    \"socpenUser\": \"P0E00002 - TEST USER2\",\n    \"content\": \"content123 to be established\",\n    \"detail\": \"detail\",\n    \"type\": \"application_capture\",\n    \"challenge\": \"080764\",\n    \"state\": null,\n    \"policy\": \"fingerprint\",\n    \"status\": \"pending\",\n    \"creator\": \"admin\",\n    \"updator\": null\n}"
+										},
+										"url": {
+											"raw": "localhost:7001/oaamwrapper/api/transactions",
+											"host": [
+												"localhost"
+											],
+											"port": "7001",
+											"path": [
+												"oaamwrapper",
+												"api",
+												"transactions"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd586ac6-c741-4cb2-93ae-68f6d90a44f2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "29ef37dd-5f52-4374-a3c3-04fdef7faa94",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9aec8a55-2024-4f5e-a5dc-51cf1735ccda",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3ea70123-eca3-4187-afd9-1c5a38c0e524",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

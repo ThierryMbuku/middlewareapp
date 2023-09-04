@@ -1,0 +1,47 @@
+*********************************************************************************************
+						Adding a certificate to Java Keystore in weblogic
+*********************************************************************************************
+
+1. Take the backup of current cacert file from the server:
+
+	1.1 Go to: /opt/jdk1.8.0_144/jre/lib/security  && copy the cacert file to a backup folder (remote/local)
+
+2. Copy the certificate file to:
+
+	2.1 /opt/jdk1.8.0_144/jre/lib/security
+
+
+Note: If you are getting permission error while copying the cert file to above location, pls follow below steps:
+
+*********************************************************************************************
+copy the file locally to any accessible directory for e.g (/u01/niis/cert)
+
+cd /u01/niis/cert
+
+use this command to move the file to desired location in /opt mount:
+
+sudo cp niis.cer /opt/jdk1.8.0_144/jre/lib/security
+*********************************************************************************************
+
+
+3. To run java keytool utility: 
+
+	3.1 cd /opt/jdk1.8.0_144/jre/bin
+
+	3.2 ./keytool -list -keystore /opt/jdk1.8.0_144/jre/lib/security/cacerts {this will show the list of certificates added in cacert}
+
+	3.3 sudo ./keytool -import -alias niis -file /opt/jdk1.8.0_144/jre/lib/security/niis.cer -keystore  /opt/jdk1.8.0_144/jre/lib/security/cacerts
+
+
+*********************************************************************************************
+								Useful to know:
+*********************************************************************************************
+
+1. deleting a certificate from java keystore:
+	
+	./keytool -delete -alias mykey -keystore  /opt/jdk1.8.0_144/jre/lib/security/cacerts
+
+
+2. exporting a certificate from java keystore:
+	
+	./keytool -export -alias niisverfication.dha.gov.za-1 -file niis.cer -keystore /opt/jdk1.8.0_144/jre/lib/security/cacerts

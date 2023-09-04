@@ -1,0 +1,23 @@
+## sftp
+# mput -r /Users/deepaksuri/office/git/SASSA-BIAM/middleware/ecd-helper/ecd-helper-deploy /u01/ecd
+
+# DEV
+mput /Users/deepaksuri/office/git/SASSA-BIAM/middleware/ecd-helper/ecd-helper-deploy/ecd-helper-DEV.jar /u01/ecd/ecd-helper-deploy
+
+# PROD
+mput /Users/deepaksuri/office/git/SASSA-BIAM/middleware/ecd-helper/ecd-helper-deploy/ecd-helper-PROD.jar /u01/ecd/ecd-helper-deploy
+
+
+########################################################################################################################
+########################################################################################################################
+
+
+# DEV
+cd /u01/ecd/ecd-helper-deploy
+java -cp "ecd-helper-DEV.jar:lib/*" prosense.document.DocumentHelper appIds.txt > output.txt
+
+# PROD
+cd /u01/ecd/ecd-helper-deploy
+java -cp "ecd-helper-PROD.jar:lib/*" prosense.document.DocumentHelper appIds.txt > output.txt
+
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0">
+    <persistence-unit name="srdUserPu">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>srd_user</jta-data-source>
+        <class>prosense.sassa.srdeft.converters.ZonedDateTimeConverter</class>
+        <class>prosense.sassa.srdeft.outcome.srd.entity.Outcome</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+<!-- 
+        <properties>
+			<property name="eclipselink.logging.logger" value="ServerLogger"/>
+			<property name="eclipselink.logging.level" value="FINE"/>
+			<property name="eclipselink.logging.level.sql" value="FINE"/>
+			<property name="eclipselink.logging.parameters" value="true"/>
+        </properties>
+ -->
+    </persistence-unit>
+    <persistence-unit name="srdeftUserPu">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>srdeft_user</jta-data-source>
+        <class>prosense.sassa.srdeft.converters.ZonedDateTimeConverter</class>
+        <class>prosense.sassa.srdeft.covjob.entity.CovJob</class>
+        <class>prosense.sassa.srdeft.sequence.entity.Sequence</class>
+        <class>prosense.sassa.srdeft.userdetail.entity.UserDetail</class>
+        <class>prosense.sassa.srdeft.cashbook.entity.CashBook</class>
+        <class>prosense.sassa.srdeft.cashbook.entity.DataFile</class>
+        <class>prosense.sassa.srdeft.cashbook.entity.PatchOutcomeError</class>
+        <class>prosense.sassa.srdeft.outcome.staging.entity.Outcome</class>
+        <class>prosense.sassa.srdeft.transmissionfile.entity.TransmissionFile</class>
+        <class>prosense.sassa.srdeft.batchcovjob.entity.BatchCovJob</class>
+        <class>prosense.sassa.srdeft.publicholiday.entity.PublicHoliday</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+</persistence>

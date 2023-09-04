@@ -1,0 +1,1869 @@
+{
+	"info": {
+		"_postman_id": "7633a4bb-ff62-44f1-9287-9ffd6f9c5d57",
+		"name": "srdeft",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "tests",
+			"item": [
+				{
+					"name": "api",
+					"item": [
+						{
+							"name": "covjobs",
+							"item": [
+								{
+									"name": "create",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('covjob_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['verificationPeriod'] = req.verificationPeriod === res.verificationPeriod",
+													"tests['period'] = req.period === res.period",
+													"tests['payDay'] = req.payDay === res.payDay",
+													"tests['subService'] = req.subService === res.subService",
+													"tests['type'] = req.type === res.type",
+													"tests['byRegion'] = req.byRegion === res.byRegion",
+													"tests['test'] = req.test === res.test",
+													"tests['properties'] = _.size(res) == 18"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"verificationPeriod\": \"MAY2020\",\n    \"period\": \"JUN2020\",\n    \"payDay\": 23,\n    \"subService\": \"same_day\",\n    \"type\": \"eft\",\n    \"byRegion\": true,\n    \"test\": false\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/covjobs",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"covjobs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "sign",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(200)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.environment.set('covjob_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['signStatus'] = res.signStatus === \"approved\"",
+													"tests['properties'] = _.size(res) == 19"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"value": "srd_approver",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"signStatus\": \"approved\"\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/covjobs/{{covjob_id}}/sign",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"covjobs",
+												"{{covjob_id}}",
+												"sign"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "start",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(200)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.environment.set('covjob_id', res.id)",
+													"tests['status'] = res.status === \"started\"",
+													"tests['signStatus'] = res.signStatus === \"approved\"",
+													"tests['properties'] = _.size(res) == 19"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/covjobs/{{covjob_id}}/start",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"covjobs",
+												"{{covjob_id}}",
+												"start"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "read",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/covjobs/{{covjob_id}}",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"covjobs",
+												"{{covjob_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "read all",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/covjobs?_limit=5&_sort=-id",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"covjobs"
+											],
+											"query": [
+												{
+													"key": "_limit",
+													"value": "5"
+												},
+												{
+													"key": "_sort",
+													"value": "-id"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "search",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/covjobs?_fields=period,payDay,subService,created&from=2020-05-25T00:00:00.000Z&to=2020-05-26T00:00:00.000Z&_sort=-id&status=completed",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"covjobs"
+											],
+											"query": [
+												{
+													"key": "_fields",
+													"value": "period,payDay,subService,created"
+												},
+												{
+													"key": "from",
+													"value": "2020-05-25T00:00:00.000Z"
+												},
+												{
+													"key": "to",
+													"value": "2020-05-26T00:00:00.000Z"
+												},
+												{
+													"key": "_sort",
+													"value": "-id"
+												},
+												{
+													"key": "status",
+													"value": "completed"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "a462ba7c-3707-4889-acf2-331c50c4c3f8",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "d2123be8-6509-4644-bb36-b7c339abfdf4",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "publicholidays",
+							"item": [
+								{
+									"name": "create",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "3afcbacf-157d-420a-8530-ba3328896189",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "b4faba8f-9d68-4c5f-bee4-56fb4a725382",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('publicholiday_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['date'] = req.date === res.date",
+													"tests['name'] = req.name === res.name",
+													"tests['description'] = req.description === res.description",
+													"tests['properties'] = _.size(res) == 8"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"date\": \"2020-06-24\",\n    \"name\": \"public holiday name\",\n    \"description\": \"public holiday description\"\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/publicholidays",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"publicholidays"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "ef1cb36b-be0b-4d45-b7a6-02ac6a6c1513",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "f925dbd2-9c60-4a01-a2ed-e68c1a00e08a",
+												"exec": [
+													"pm.response.to.have.status(2010",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('publicholiday_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['date'] = req.date === res.date",
+													"tests['name'] = req.name === res.name",
+													"tests['description'] = req.description === res.description",
+													"tests['properties'] = _.size(res) == 8"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"date\": \"2020-06-25\",\n    \"name\": \"public holiday name new\",\n    \"description\": \"public holiday description new\"\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/publicholidays/{{publicholiday_id}}",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"publicholidays",
+												"{{publicholiday_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "read",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/publicholidays/{{publicholiday_id}}",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"publicholidays",
+												"{{publicholiday_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "read all",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/publicholidays?_limit=5&_sort=-id",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"publicholidays"
+											],
+											"query": [
+												{
+													"key": "_limit",
+													"value": "5"
+												},
+												{
+													"key": "_sort",
+													"value": "-id"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "search",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/publicholidays?_fields=date,name&_sort=-id&date=2020-06-25",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"publicholidays"
+											],
+											"query": [
+												{
+													"key": "_fields",
+													"value": "date,name"
+												},
+												{
+													"key": "from",
+													"value": "2020-01-01T00:00:00.000Z",
+													"disabled": true
+												},
+												{
+													"key": "to",
+													"value": "2020-12-31T00:00:00.000Z",
+													"disabled": true
+												},
+												{
+													"key": "_sort",
+													"value": "-id"
+												},
+												{
+													"key": "date",
+													"value": "2020-06-25"
+												},
+												{
+													"key": "gteqDate",
+													"value": "2020-04-13T00:00:00.000Z",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "8ae29426-6030-4f74-aa0c-06525de6ae43",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "5c90eeab-f3ee-4561-a3e2-a762259c5ded",
+												"exec": [
+													"pm.response.to.have.status(204)",
+													"pm.environment.unset(pm.environment.get('publicholiday_id'))",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_approver"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/publicholidays/{{publicholiday_id}}",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"publicholidays",
+												"{{publicholiday_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "0ff986fe-d321-4856-bd3a-fc5f42d14fe2",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "7a029c08-f276-493d-b1aa-9eb00e1971cf",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "paydays",
+							"item": [
+								{
+									"name": "evaluate",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"processingDate\": \"2020-06-30\",\n    \"subService\": \"two_day\"\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/paydays",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"paydays"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "1f0c4514-e3aa-48c5-b12a-cf9c37f7beca",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "116a5789-4dcd-41b6-859a-41344d9016d7",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "batchcovjobs",
+							"item": [
+								{
+									"name": "create",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "c10246d7-8c31-4149-9e95-17f4127708cb",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "30906c47-95b0-4050-9766-d79cee95e314",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('batchcovjob_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['verificationPeriod'] = req.verificationPeriod === res.verificationPeriod",
+													"tests['period'] = req.period === res.period",
+													"tests['payDay'] = req.payDay === res.payDay",
+													"tests['subService'] = req.subService === res.subService",
+													"tests['type'] = req.type === res.type",
+													"tests['byRegion'] = req.byRegion === res.byRegion",
+													"tests['test'] = req.test === res.test",
+													"tests['properties'] = _.size(res) == 22"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"processingDate\": \"2020-06-25\",\n    \"verificationPeriod\": \"MAY2020\",\n    \"period\": \"JUN2020\",\n    \"payDay\": 25,\n    \"subService\": \"same_day\",\n    \"type\": \"eft\",\n    \"byRegion\": true,\n    \"test\": false\n}",
+											"options": {
+												"raw": {}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/batchcovjobs",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"batchcovjobs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "sign",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "dfc0be05-bd92-40cf-9a59-de0ac78fcb93",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "2adafdc8-6c07-4c74-878f-75e084ca0d87",
+												"exec": [
+													"pm.response.to.have.status(200)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.environment.set('batchcovjob_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['signStatus'] = res.signStatus === \"approved\"",
+													"tests['properties'] = _.size(res) == 23"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"value": "srd_approver",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"signStatus\": \"approved\"\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/batchcovjobs/{{batchcovjob_id}}/sign",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"batchcovjobs",
+												"{{batchcovjob_id}}",
+												"sign"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "start",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "b1725640-b596-47f9-a684-3d7c5ebdd466",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "bc589a6b-49c4-43fd-9bd0-86d118724b8e",
+												"exec": [
+													"pm.response.to.have.status(200)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.environment.set('batchcovjob_id', res.id)",
+													"tests['status'] = res.status === \"started\"",
+													"tests['signStatus'] = res.signStatus === \"approved\"",
+													"tests['properties'] = _.size(res) == 23"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/batchcovjobs/{{batchcovjob_id}}/start",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"batchcovjobs",
+												"{{batchcovjob_id}}",
+												"start"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "cancel",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "59a88b44-9f10-46b2-9a03-8a598704521b",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "a57a156e-965e-437d-b040-82f900548847",
+												"exec": [
+													"pm.response.to.have.status(200)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.environment.set('batchcovjob_id', res.id)",
+													"tests['status'] = res.status === \"cancelled\"",
+													"tests['properties'] = _.size(res) == 23"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/batchcovjobs/{{batchcovjob_id}}/cancel",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"batchcovjobs",
+												"{{batchcovjob_id}}",
+												"cancel"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "read",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/batchcovjobs/{{batchcovjob_id}}",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"batchcovjobs",
+												"{{batchcovjob_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "read all",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/batchcovjobs?_limit=5&_sort=-id",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"batchcovjobs"
+											],
+											"query": [
+												{
+													"key": "_limit",
+													"value": "5"
+												},
+												{
+													"key": "_sort",
+													"value": "-id"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "search",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/batchcovjobs?_fields=period,payDay,subService,status,signStatus,created&_sort=-id&status=pending&signStatus=approved",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"batchcovjobs"
+											],
+											"query": [
+												{
+													"key": "_fields",
+													"value": "period,payDay,subService,status,signStatus,created"
+												},
+												{
+													"key": "_sort",
+													"value": "-id"
+												},
+												{
+													"key": "status",
+													"value": "pending"
+												},
+												{
+													"key": "signStatus",
+													"value": "approved"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "042ac9dd-0be0-482c-8c06-3baac9195cdb",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "2a8688c3-bd73-48a4-9051-64db3ff1045b",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "transmissionfiles",
+							"item": [
+								{
+									"name": "ctl_begin",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(422)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"service\": \"eft\",\n    \"subService\": \"same_day\",\n    \"type\": \"ctl_begin\",\n    \"test\": true\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ctl_end",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('transmissionfile_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['service'] = req.service === res.service",
+													"tests['subService'] = req.subService === res.subService",
+													"tests['type'] = req.type === res.type",
+													"tests['test'] = req.test === res.test",
+													"tests['properties'] = _.size(res) == 11"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"service\": \"eft\",\n    \"subService\": \"same_day\",\n    \"type\": \"ctl_end\",\n    \"test\": false\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ack_begin positive",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('transmissionfile_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['service'] = req.service === res.service",
+													"tests['type'] = req.type === res.type",
+													"tests['ackStatus'] = req.ackStatus === res.ackStatus",
+													"tests['test'] = req.test === res.test",
+													"tests['properties'] = _.size(res) == 11"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"service\": \"eft\",\n    \"type\": \"ack_begin\",\n    \"ackStatus\": \"positive\",\n    \"test\": true\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ack_begin negative",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('transmissionfile_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['service'] = req.service === res.service",
+													"tests['type'] = req.type === res.type",
+													"tests['ackStatus'] = req.ackStatus === res.ackStatus",
+													"tests['errorCode'] = req.errorCode === res.errorCode",
+													"tests['test'] = req.test === res.test",
+													"tests['properties'] = _.size(res) == 11"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"service\": \"eft\",\n    \"type\": \"ack_begin\",\n    \"ackStatus\": \"negative\",\n    \"errorCode\": \"0102\",\n    \"test\": true\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ack_end positive",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('transmissionfile_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['service'] = req.service === res.service",
+													"tests['type'] = req.type === res.type",
+													"tests['ackStatus'] = req.ackStatus === res.ackStatus",
+													"tests['test'] = req.test === res.test",
+													"tests['properties'] = _.size(res) == 11"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"service\": \"eft\",\n    \"type\": \"ack_end\",\n    \"ackStatus\": \"positive\",\n    \"test\": true\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ack_end negative",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('transmissionfile_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['service'] = req.service === res.service",
+													"tests['type'] = req.type === res.type",
+													"tests['ackStatus'] = req.ackStatus === res.ackStatus",
+													"tests['errorCode'] = req.errorCode === res.errorCode",
+													"tests['test'] = req.test === res.test",
+													"tests['properties'] = _.size(res) == 11"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"service\": \"eft\",\n    \"type\": \"ack_end\",\n    \"ackStatus\": \"negative\",\n    \"errorCode\": \"0102\",\n    \"test\": true\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ack_vet positive",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('transmissionfile_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['service'] = req.service === res.service",
+													"tests['type'] = req.type === res.type",
+													"tests['ackStatus'] = req.ackStatus === res.ackStatus",
+													"tests['test'] = req.test === res.test",
+													"tests['properties'] = _.size(res) == 11"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"fileName\": \"ERSZ001D\",\n    \"service\": \"eft\",\n    \"type\": \"ack_vet\",\n    \"ackStatus\": \"positive\",\n    \"test\": true\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ack_vet negative",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location')",
+													"pm.environment.set('transmissionfile_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['service'] = req.service === res.service",
+													"tests['type'] = req.type === res.type",
+													"tests['ackStatus'] = req.ackStatus === res.ackStatus",
+													"tests['errorCode'] = req.errorCode === res.errorCode",
+													"tests['test'] = req.test === res.test",
+													"tests['properties'] = _.size(res) == 11"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "User",
+												"type": "text",
+												"value": "srd_admin"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"fileName\": \"ERSZ001D\",\n    \"service\": \"eft\",\n    \"type\": \"ack_vet\",\n    \"ackStatus\": \"negative\",\n    \"errorCode\": \"0102\",\n    \"test\": true\n}"
+										},
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "read",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles/{{transmissionfile_id}}",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles",
+												"{{transmissionfile_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "read all",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles?_limit=5&_sort=-id",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles"
+											],
+											"query": [
+												{
+													"key": "_limit",
+													"value": "5"
+												},
+												{
+													"key": "_sort",
+													"value": "-id"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "search",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "User",
+												"value": "srd_admin",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/srdeft/api/transmissionfiles?created=2020-05-21&type=ctl_end",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"srdeft",
+												"api",
+												"transmissionfiles"
+											],
+											"query": [
+												{
+													"key": "created",
+													"value": "2020-05-21"
+												},
+												{
+													"key": "type",
+													"value": "ctl_end"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "a462ba7c-3707-4889-acf2-331c50c4c3f8",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "d2123be8-6509-4644-bb36-b7c339abfdf4",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd586ac6-c741-4cb2-93ae-68f6d90a44f2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "29ef37dd-5f52-4374-a3c3-04fdef7faa94",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9aec8a55-2024-4f5e-a5dc-51cf1735ccda",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3ea70123-eca3-4187-afd9-1c5a38c0e524",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,625 @@
+{
+	"info": {
+		"_postman_id": "3cfe4072-b6f3-4df9-9694-5d0e4940cd5d",
+		"name": "mqclient",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "tests",
+			"item": [
+				{
+					"name": "api",
+					"item": [
+						{
+							"name": "transactions",
+							"item": [
+								{
+									"name": "create",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "26bd034d-c3e3-43b4-b219-2cf8f111e7a4",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location', 'http://' + request.url + '/' + res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['id'] = req.id === res.id",
+													"tests['correlation'] = req.correlation === res.correlation",
+													"tests['domainUser'] = req.domainUser === res.domainUser",
+													"tests['socpenUser'] = req.socpenUser === res.socpenUser",
+													"tests['content'] = req.content === res.content",
+													"tests['detail'] = req.detail === res.detail",
+													"tests['type'] = req.type === res.type",
+													"tests['challenge'] = req.challenge === res.challenge",
+													"tests['hash'] = req.hash === res.hash",
+													"tests['state'] = req.state === res.state",
+													"tests['policy'] = req.policy === res.policy",
+													"tests['status'] = req.status === res.status",
+													"tests['cipher'] = req.cipher === res.cipher",
+													"tests['choice'] = req.choice === res.choice",
+													"tests['created'] = req.created === res.created",
+													"tests['creator'] = req.creator === res.creator",
+													"tests['updated'] = req.updated === res.updated",
+													"tests['updator'] = req.updator === res.updator",
+													"tests['properties'] = _.size(res) == 18"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"id\": 189,\n    \"correlation\": \"S1234\",\n    \"domainUser\": \"testdomain\",\n    \"socpenUser\": \"P0E00002 - TEST USER2\",\n    \"content\": \"content123 to be established\",\n    \"detail\": \"detail\",\n    \"type\": \"application_capture\",\n    \"challenge\": \"080764\",\n    \"hash\": null,\n    \"state\": null,\n    \"policy\": \"fingerprint\",\n    \"status\": \"pending\",\n    \"cipher\": null,\n    \"choice\": null,\n    \"created\": \"2018-07-18T15:22:21.601Z\",\n    \"creator\": \"admin\",\n    \"updated\": null,\n    \"updator\": null\n}"
+										},
+										"url": {
+											"raw": "10.124.156.145:7003/mqclient/api/transactions",
+											"host": [
+												"10",
+												"124",
+												"156",
+												"145"
+											],
+											"port": "7003",
+											"path": [
+												"mqclient",
+												"api",
+												"transactions"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "ping",
+							"item": [
+								{
+									"name": "create",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "26bd034d-c3e3-43b4-b219-2cf8f111e7a4",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"",
+													"var req = JSON.parse(request.data)",
+													"tests['iamPUT'] = req.id === res.iamPUT"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"iamPUT\": \"2018-07-18T15:22:21.601Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "10.124.156.145:7003/mqclient/api/pings",
+											"host": [
+												"10",
+												"124",
+												"156",
+												"145"
+											],
+											"port": "7003",
+											"path": [
+												"mqclient",
+												"api",
+												"pings"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "5690b662-57db-4051-b490-704241bbbbba",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "1be1e9c8-a81e-4c5a-8d14-eb45d56e4879",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "beneficiary",
+							"item": [
+								{
+									"name": "benificiary verify",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "26bd034d-c3e3-43b4-b219-2cf8f111e7a4",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.application).to.be.a('number')",
+													"pm.response.to.have.header('Location', 'http://' + request.url + '/' + res.application)",
+													"var req = JSON.parse(request.data)",
+													"tests['application'] = req.application === res.application",
+													"tests['applicantId'] = req.applicantId === res.applicantId",
+													"tests['applicantFullName'] = req.applicantFullName === res.applicantFullName",
+													"tests['applicantSurname'] = req.applicantSurname === res.applicantSurname",
+													"tests['status'] = req.status === res.status",
+													"tests['errorCode'] = req.errorCode === res.errorCode",
+													"tests['errorDesc'] = req.errorDesc === res.errorDesc",
+													"tests['transaction'] = req.transaction === res.transaction",
+													"tests['verified'] = req.verified === res.verified",
+													"tests['properties'] = _.size(res) == 9"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"application\": 1,\n\t\"applicantId\": 2000,\n\t\"applicantFullname\": \"fullname\",\n\t\"applicantSurname\": \"surname\",\n\t\"status\": \"red\",\n\t\"errorCode\": \"1004\",\n\t\"errorDesc\": \"invalid IDN\",\n\t\"transaction\": \"0000000000000\",\n\t\"verified\": \"2018-09-25T15:56:18.259Z\"\n}"
+										},
+										"url": {
+											"raw": "10.124.156.145:7003/mqclient/api/beneficiary/ben/verify",
+											"host": [
+												"10",
+												"124",
+												"156",
+												"145"
+											],
+											"port": "7003",
+											"path": [
+												"mqclient",
+												"api",
+												"beneficiary",
+												"ben",
+												"verify"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "procurator verify",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "26bd034d-c3e3-43b4-b219-2cf8f111e7a4",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.application).to.be.a('number')",
+													"pm.response.to.have.header('Location', 'http://' + request.url + '/' + res.application)",
+													"var req = JSON.parse(request.data)",
+													"tests['application'] = req.application === res.application",
+													"tests['applicantId'] = req.applicantId === res.applicantId",
+													"tests['procuratorId'] = req.procuratorId === res.procuratorId",
+													"tests['procuratorFullname'] = req.procuratorFullname === res.procuratorFullname",
+													"tests['procuratorSurname'] = req.procuratorSurname === res.procuratorSurname",
+													"tests['status'] = req.status === res.status",
+													"tests['errorCode'] = req.errorCode === res.errorCode",
+													"tests['errorDesc'] = req.errorDesc === res.errorDesc",
+													"tests['transaction'] = req.transaction === res.transaction",
+													"tests['verified'] = req.verified === res.verified",
+													"tests['properties'] = _.size(res) == 10"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"application\": 2,\n\t\"applicantId\": 2000,\n\t\"procuratorId\": 4000,\n\t\"procuratorFullname\": \"fullname\",\n\t\"procuratorSurname\": \"surname\",\n\t\"status\": \"red\",\n\t\"errorCode\": \"1004\",\n\t\"errorDesc\": \"invalid IDN\",\n\t\"transaction\": \"0000000000000\",\n\t\"verified\": \"2018-09-25T15:56:18.259Z\"\n}"
+										},
+										"url": {
+											"raw": "10.124.156.145:7003/mqclient/api/beneficiary/proc/verify",
+											"host": [
+												"10",
+												"124",
+												"156",
+												"145"
+											],
+											"port": "7003",
+											"path": [
+												"mqclient",
+												"api",
+												"beneficiary",
+												"proc",
+												"verify"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "id enrol",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "26bd034d-c3e3-43b4-b219-2cf8f111e7a4",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.application).to.be.a('number')",
+													"pm.response.to.have.header('Location', 'http://' + request.url + '/' + res.application)",
+													"var req = JSON.parse(request.data)",
+													"tests['application'] = req.application === res.application",
+													"tests['applicantId'] = req.applicantId === res.applicantId",
+													"tests['captureStatus'] = req.captureStatus === res.captureStatus",
+													"tests['properties'] = _.size(res) == 3"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"application\": 3,\n\t\"applicantId\": 2000,\n\t\"captureStatus\": \"captureStatus\"\n}"
+										},
+										"url": {
+											"raw": "10.124.156.145:7003/mqclient/api/beneficiary/id/enrol",
+											"host": [
+												"10",
+												"124",
+												"156",
+												"145"
+											],
+											"port": "7003",
+											"path": [
+												"mqclient",
+												"api",
+												"beneficiary",
+												"id",
+												"enrol"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "mqevents",
+							"item": [
+								{
+									"name": "create",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f26ebb21-918c-4f30-bdca-05eecdab04b0",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "35a24ded-3137-43cd-b5ba-d86170b00d6e",
+												"exec": [
+													"pm.response.to.have.status(201)",
+													"pm.response.to.have.header('Content-Type', 'application/json')",
+													"pm.response.to.have.jsonBody()",
+													"var res = pm.response.json()",
+													"pm.expect(res.id).to.be.a('number')",
+													"pm.response.to.have.header('Location', 'http://' + request.url + '/' + res.id)",
+													"pm.environment.set('mqevent_id', res.id)",
+													"var req = JSON.parse(request.data)",
+													"tests['transaction'] = req.transaction === res.transaction",
+													"tests['sequence'] = req.sequence === res.sequence",
+													"tests['messageId'] = req.messageId === res.messageId",
+													"tests['correlation'] = req.correlation === res.correlation",
+													"tests['type'] = req.type === res.type",
+													"tests['effectedBy'] = req.effectedBy === res.effectedBy",
+													"tests['effectedOn'] = req.effectedOn === res.effectedOn",
+													"tests['occurred'] = req.occurred === res.occurred",
+													"tests['context'] = req.context === res.context",
+													"tests['creator'] = req.creator === res.creator",
+													"tests['properties'] = _.size(res) == 12"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{  \n    \"transaction\": 123422,\n    \"sequence\": 2,\n    \"messageId\": \"msg2222\",\n    \"correlation\": \"cor2222\",\n    \"type\": \"POST\",\n    \"effectedBy\": \"MQCLIENT\",\n    \"effectedOn\": \"nonrepudiation/api/transactions\",\n    \"occurred\": \"2018-07-18T15:22:21.601Z\",\n    \"context\": \"SOCPENHIGHRISK\",\n    \"creator\": \"iamadmin\"\n}"
+										},
+										"url": {
+											"raw": "10.124.156.145:7003/mqclient/api/mqevents",
+											"host": [
+												"10",
+												"124",
+												"156",
+												"145"
+											],
+											"port": "7003",
+											"path": [
+												"mqclient",
+												"api",
+												"mqevents"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "read",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "10.124.156.145:7003/mqclient/api/mqevents/{{mqevent_id}}",
+											"host": [
+												"10",
+												"124",
+												"156",
+												"145"
+											],
+											"port": "7003",
+											"path": [
+												"mqclient",
+												"api",
+												"mqevents",
+												"{{mqevent_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "read all",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "10.124.156.145:7003/mqclient/api/mqevents/",
+											"host": [
+												"10",
+												"124",
+												"156",
+												"145"
+											],
+											"port": "7003",
+											"path": [
+												"mqclient",
+												"api",
+												"mqevents",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "search",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "10.124.156.145:7003/mqclient/api/mqevents?transaction=123422&messageId=msg2222&correlation=cor2222",
+											"host": [
+												"10",
+												"124",
+												"156",
+												"145"
+											],
+											"port": "7003",
+											"path": [
+												"mqclient",
+												"api",
+												"mqevents"
+											],
+											"query": [
+												{
+													"key": "transaction",
+													"value": "123422"
+												},
+												{
+													"key": "messageId",
+													"value": "msg2222"
+												},
+												{
+													"key": "correlation",
+													"value": "cor2222"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd586ac6-c741-4cb2-93ae-68f6d90a44f2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "29ef37dd-5f52-4374-a3c3-04fdef7faa94",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9aec8a55-2024-4f5e-a5dc-51cf1735ccda",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3ea70123-eca3-4187-afd9-1c5a38c0e524",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

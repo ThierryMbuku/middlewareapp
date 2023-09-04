@@ -1,0 +1,358 @@
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://ijs.gov.za/schemas/sajsip/3.0.0" version="3.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:saj-sip="http://ijs.gov.za/schemas/sajsip/3.0.0">
+   <xsd:attribute name="typeId" type="saj-sip:TypeIdType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Six-digit identifier. Message type identifier. Is constant for all versions of the schema for this message. Values are pre-assigned by the IJS.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:attribute>
+   <xsd:simpleType name="dateTime">
+      <xsd:annotation>
+         <xsd:documentation source="model">Represents a specific instance of time, expressed as an ISO-8601 compliant value. Derived from xsd:dateTime. The pattern for dateTime is CCYY-MM-DDThh:mm:ss where CC represents the century, YY the year, MM the month, and DD the day, preceded by an optional leading negative (-) character to indicate a negative number. If the negative character is omitted, positive (+) is assumed. The T is the date/time separator and hh, mm, and ss represent hour, minute, and second respectively. Additional digits can be used to increase the precision of fractional seconds if desired. For example, the format ss.ss... with any number of digits after the decimal point is supported. The fractional seconds part is optional. This representation may be immediately followed by a "Z" to indicate Coordinated Universal Time (UTC) or to indicate the time zone. For example, the difference between the local time and Coordinated Universal Time, immediately followed by a sign, + or -, followed by the difference from UTC represented as hh:mm (minutes is required). If the time zone is included, both hours and minutes must be present.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:dateTime"/>
+   </xsd:simpleType>
+   <xsd:simpleType name="guid">
+      <xsd:annotation>
+         <xsd:documentation source="model">Globally Unique Identifier (GUID) with or without brackets. 8,4,4,4,12 hex characters seperated by dashes, upper- and lower-case letters.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj-sip:string">
+         <xsd:pattern value="\{?[a-fA-F\d]{8}-([a-fA-F\d]{4}-){3}[a-fA-F\d]{12}\}?"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="MessageIdValueType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message identifier value type.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj-sip:guid"/>
+   </xsd:simpleType>
+   <xsd:simpleType name="MessagePropertyNameType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message instance attribute property name type.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj-sip:string">
+         <xsd:minLength value="1"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="ReferenceDataNameType">
+      <xsd:annotation>
+         <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj-sip:string">
+         <xsd:minLength value="1"/>
+         <xsd:pattern value="([A-Za-z])+"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="ReferenceDataTypeType3">
+      <xsd:annotation>
+         <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj-sip:string">
+         <xsd:enumeration value="ICS_refdata"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="ReferenceDataValueType">
+      <xsd:annotation>
+         <xsd:documentation source="model">IJS ICS reference data value or token.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj-sip:token">
+         <xsd:minLength value="1"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="ReferenceDataVersionType">
+      <xsd:annotation>
+         <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj-sip:string">
+         <xsd:minLength value="1"/>
+         <xsd:pattern value="\d*[0-9](\.\d*[0-9])+"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="sixDigitString">
+      <xsd:annotation>
+         <xsd:documentation source="model">Six digit string including leading zeroes, representing positive number values from 0 to 999999.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj-sip:string">
+         <xsd:length value="6"/>
+         <xsd:pattern value="\d{6}"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="string">
+      <xsd:annotation>
+         <xsd:documentation source="model">Text string value. Derived from xsd:string.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:string"/>
+   </xsd:simpleType>
+   <xsd:simpleType name="token">
+      <xsd:annotation>
+         <xsd:documentation source="model">Text string value that complies with the XML schema token type. Derived from xsd:token.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:token"/>
+   </xsd:simpleType>
+   <xsd:simpleType name="TypeIdType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message type identifier. Used to identify semantically identical messages that may have been renamed or have a different namespace and/or message version.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj-sip:sixDigitString"/>
+   </xsd:simpleType>
+   <xsd:complexType name="IJSMessageSourceCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">ICS codeset type created for element 'MessageSource'.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:restriction base="saj-sip:ReferenceDataType3">
+            <xsd:attribute name="Type" type="saj-sip:ReferenceDataTypeType3" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute fixed="IJSMessageSource" name="Name" type="saj-sip:ReferenceDataNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj-sip:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:restriction>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="MessageHeaderDataType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message instance application-specific data. Required to be sub-classed.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="xsd:anyType"/>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="MessageHeaderType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message instance application-specific data. Required to be sub-classed.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element ref="saj-sip:UserMessage">
+            <xsd:annotation>
+               <xsd:documentation source="model">User message information. Users and application are responsible for providing the content for this element.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="MessageIdType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Globally uniquely defines a message instance in the IJS. the combination of the message number and message source Name, Version and item value, is guaranteed to be unique.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element ref="saj-sip:MessageNumber">
+            <xsd:annotation>
+               <xsd:documentation source="model">Message number. Unique number for all instances of this message type, for a specific message source.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element ref="saj-sip:MessageSource">
+            <xsd:annotation>
+               <xsd:documentation source="model">Message source. Uniquely defines the application/departmental end-point that sources the message to the IJS.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="MessageInfoType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Redefined MessagInfo type to include message ID and reference-to-message ID. The RefToMessageId must contains the same ID as the MessageID of the original Request message.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element ref="saj-sip:Timestamp">
+            <xsd:annotation>
+               <xsd:documentation source="model">Message instance date/time stamp. The date and time that the message was created by the source system.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element ref="saj-sip:MessageId">
+            <xsd:annotation>
+               <xsd:documentation source="model">Message instance  identification information. Includes message source and message number.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="MessagePayloadType3">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message payload content container definition. Required to be sub-classed.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="xsd:anyType"/>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="MessagePropertyType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message attribute property type.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:extension base="saj-sip:string">
+            <xsd:attribute name="name" type="saj-sip:MessagePropertyNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">Name of property or attribute.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:extension>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="MessageType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Base message type. The base message is composed of the header, payload and error content.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:attribute ref="saj-sip:typeId" use="required">
+         <xsd:annotation>
+            <xsd:documentation source="model">Six-digit identifier. Message type identifier. Is constant for all versions of the schema for this message. Values are pre-assigned by the IJS.</xsd:documentation>
+         </xsd:annotation>
+      </xsd:attribute>
+   </xsd:complexType>
+   <xsd:complexType name="ReferenceDataType3">
+      <xsd:annotation>
+         <xsd:documentation source="model">IJS ICS reference data type.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:extension base="saj-sip:ReferenceDataValueType">
+            <xsd:attribute name="Type" type="saj-sip:ReferenceDataTypeType3" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Name" type="saj-sip:ReferenceDataNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj-sip:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:extension>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="RequestMessageType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Sub-classed MessageType. Subsitutes MessageInfo, forces the Payload element, and removes the Error element. The request message is sent to a specific recipient, which will always result in either a Response or ResponseError message.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="saj-sip:MessageType">
+            <xsd:sequence>
+               <xsd:element ref="saj-sip:Header">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">Message header. Always the first element of any SAJSIP message.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="UserMessageType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Application message information. Users and application are responsible for providing the content for this element.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element ref="saj-sip:MessageInfo">
+            <xsd:annotation>
+               <xsd:documentation source="model">Message base source and instance identifiers for forward and return message definitions. Required to be substituted by each different type of message.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element minOccurs="0" maxOccurs="unbounded" ref="saj-sip:MessageProperty">
+            <xsd:annotation>
+               <xsd:documentation source="model">Message instance attribute property.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element minOccurs="0" ref="saj-sip:MessageData">
+            <xsd:annotation>
+               <xsd:documentation source="model">Message instance application-specific data.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="Header" type="saj-sip:MessageHeaderType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message header. Always the first element of any SAJSIP message.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="MessageData" type="saj-sip:MessageHeaderDataType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message instance application-specific data.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="MessageId" type="saj-sip:MessageIdType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message instance  identification information. Includes message source and message number.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="MessageInfo" type="saj-sip:MessageInfoType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message base source and instance identifiers for forward and return message definitions. Required to be substituted by each different type of message.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="MessageNumber" type="saj-sip:MessageIdValueType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message number. Unique number for all instances of this message type, for a specific message source.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="MessageProperty" type="saj-sip:MessagePropertyType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message instance attribute property.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="MessageSource" type="saj-sip:IJSMessageSourceCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message source. Uniquely defines the application/departmental end-point that sources the message to the IJS.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="Timestamp" type="saj-sip:dateTime">
+      <xsd:annotation>
+         <xsd:documentation source="model">Message instance date/time stamp. The date and time that the message was created by the source system.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="UserMessage" type="saj-sip:UserMessageType">
+      <xsd:annotation>
+         <xsd:documentation source="model">User message information. Users and application are responsible for providing the content for this element.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:complexType name="ResponseMessageType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Sub-classed MessageType. Subsitutes MessageInfo, forces the Payload element, and removes the Error element. The response message is sent to a the originator of a corresponding Request message.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="saj-sip:MessageType">
+            <xsd:sequence>
+               <xsd:element ref="saj-sip:Header">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">Message header. Always the first element of any SAJSIP message.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:element name="RefToMessageId" type="saj-sip:MessageIdType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Reference to request message instance using the request message identifier.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+	<xsd:complexType name="MessageErrorType">
+		<xsd:annotation>
+			<xsd:documentation source="model">Message error content container definition. Required to be sub-classed.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="xsd:anyType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ResponseErrorMessageType">
+		<xsd:annotation>
+			<xsd:documentation source="model">Sub-classed MessageType. Subsitutes MessageInfo, removes the Payload element, and forces the Error element. The ResponseError message is sent to a the originator of a corresponding Request message.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="saj-sip:MessageType">
+				<xsd:sequence>
+					<xsd:element ref="saj-sip:Header">
+						<xsd:annotation>
+							<xsd:documentation source="model">Message header. Always the first element of any SAJSIP message.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>

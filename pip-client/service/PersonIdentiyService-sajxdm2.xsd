@@ -1,0 +1,770 @@
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://ijs.gov.za/schemas/sajxdm/2.0.0" version="2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:saj="http://ijs.gov.za/schemas/sajxdm/2.0.0" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:saj-sip="http://ijs.gov.za/schemas/sajsip/3.0.0">
+   <xsd:simpleType name="SANationalIDType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The RSA national identity number of the person. Pattern = YYMMDDGSSSCAZ YYMMDD:  Date of birth G:  Gender (0-4 Female; 5-9 Male) SSS:  Sequence No for DOB/G combination C:  Citizenship.  0 SA; 1 Other A:  Usually 8, or 9 but can be other values Z:  Calculated control (check) digit.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj:string">
+         <xsd:length value="13"/>
+         <xsd:pattern value="(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))((\d{4})(\d{3})|(\d{7}))"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:element name="SANationalID" type="saj:SANationalIDType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The RSA national identity number of the person. Pattern = YYMMDDGSSSCAZ YYMMDD:  Date of birth G:  Gender (0-4 Female; 5-9 Male) SSS:  Sequence No for DOB/G combination C:  Citizenship.  0 SA; 1 Other A:  Usually 8, or 9 but can be other values Z:  Calculated control (check) digit.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:attribute name="id" type="saj:id">
+      <xsd:annotation>
+         <xsd:documentation source="model">ID value (XML schema ID-type) that can be used as a reference (XML schema IDREF) by another component.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:attribute>
+   <xsd:attributeGroup name="SuperTypeMetadata">
+      <xsd:annotation>
+         <xsd:documentation source="model">All metadata attributes that are applicable to global class types.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:attributeGroup>
+   <xsd:simpleType name="base64Binary">
+      <xsd:annotation>
+         <xsd:documentation source="model">A structure that represents Base64-encoded binary data. Derived from xsd:base64Binary.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:base64Binary"/>
+   </xsd:simpleType>
+   <xsd:simpleType name="boolean">
+      <xsd:annotation>
+         <xsd:documentation source="model">Represents Boolean values, which are either true or false. Derived from xsd:boolean.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:boolean"/>
+   </xsd:simpleType>
+   <xsd:simpleType name="date">
+      <xsd:annotation>
+         <xsd:documentation source="model">A structure that represents a calendar date with the format CCYY-MM-DD. This structure has an optional time zone qualifier designated by appending -hh:00, where hh represent the number of hours the local time zone is behind Coordinated Universal Time (UTC).</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:date"/>
+   </xsd:simpleType>
+   <xsd:simpleType name="dateTime">
+      <xsd:annotation>
+         <xsd:documentation source="model">Represents a specific instance of time, expressed as an ISO-8601 compliant value. Derived from xsd:dateTime. The pattern for dateTime is CCYY-MM-DDThh:mm:ss where CC represents the century, YY the year, MM the month, and DD the day, preceded by an optional leading negative (-) character to indicate a negative number. If the negative character is omitted, positive (+) is assumed. The T is the date/time separator and hh, mm, and ss represent hour, minute, and second respectively. Additional digits can be used to increase the precision of fractional seconds if desired. For example, the format ss.ss... with any number of digits after the decimal point is supported. The fractional seconds part is optional. This representation may be immediately followed by a "Z" to indicate Coordinated Universal Time (UTC) or to indicate the time zone. For example, the difference between the local time and Coordinated Universal Time, immediately followed by a sign, + or -, followed by the difference from UTC represented as hh:mm (minutes is required). If the time zone is included, both hours and minutes must be present.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:dateTime"/>
+   </xsd:simpleType>
+   <xsd:simpleType name="id">
+      <xsd:annotation>
+         <xsd:documentation source="model">Derived from xsd:ID. Represents the ID attribute type defined in the XML 1.0 Recommendation. The ID must be a no-colon-name (NCName) and must be unique within an XML document. This data type is derived from NCName.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:ID"/>
+   </xsd:simpleType>
+   <xsd:simpleType name="minLen1String">
+      <xsd:annotation>
+         <xsd:documentation source="model">String with a minimum length on one character.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj:string">
+         <xsd:minLength value="1"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="ReferenceDataNameType">
+      <xsd:annotation>
+         <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj:string">
+         <xsd:minLength value="1"/>
+         <xsd:pattern value="([A-Za-z])+"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="ReferenceDataTypeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj:string">
+         <xsd:enumeration value="ICS_refdata"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="ReferenceDataValueType">
+      <xsd:annotation>
+         <xsd:documentation source="model">IJS ICS reference data value or token.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj:token">
+         <xsd:minLength value="1"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="ReferenceDataVersionType">
+      <xsd:annotation>
+         <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="saj:string">
+         <xsd:minLength value="1"/>
+         <xsd:pattern value="\d*[0-9](\.\d*[0-9])+"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="string">
+      <xsd:annotation>
+         <xsd:documentation source="model">Text string value. Derived from xsd:string.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:string"/>
+   </xsd:simpleType>
+   <xsd:simpleType name="token">
+      <xsd:annotation>
+         <xsd:documentation source="model">Text string value that complies with the XML schema token type. Derived from xsd:token.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:token"/>
+   </xsd:simpleType>
+   <xsd:complexType name="AddressType">
+      <xsd:annotation>
+         <xsd:documentation source="model">A structure that describes a postal location or a geographical location.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="saj:SuperType">
+            <xsd:sequence>
+               <xsd:element maxOccurs="unbounded" ref="saj:AddressLineText">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">Details about the address.  This can include the building detail, room number, street name, street number, etc.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" ref="saj:LocationProvinceCode">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The ICS code identifying the province of the address.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" ref="saj:LocationPostalCode">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The numeric postal code of the address.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="BinaryType">
+      <xsd:annotation>
+         <xsd:documentation source="model">A structure that describes a digital representation of an object encoded in a binary format.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="saj:SuperType">
+            <xsd:sequence>
+               <xsd:element ref="saj:BinaryObject_Base64">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">A binary encoding of data, e.g., a binary encoding of a picture, photo, image, graphic, sound, or video.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="ContactInformationType">
+      <xsd:annotation>
+         <xsd:documentation source="model">A structure that describes details about how to contact a person or an organization.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="saj:SuperType">
+            <xsd:sequence>
+               <xsd:element ref="saj:ContactTypeCode">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The ICS code identifying the type of contact information.  For example, work telephone, cell phone, email, etc.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element ref="saj:ContactDetailsText">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">Details of the contact information.This could the contact telephone number or email address. etc.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="ContactTypeCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">ICS codeset type created for element 'ContactTypeCode'.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:restriction base="saj:ReferenceDataType">
+            <xsd:attribute name="Type" type="saj:ReferenceDataTypeType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute fixed="ContactType" name="Name" type="saj:ReferenceDataNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:restriction>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="CountriesCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">ICS codeset type created for element 'PersonBirthCountryCode'.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:restriction base="saj:ReferenceDataType">
+            <xsd:attribute name="Type" type="saj:ReferenceDataTypeType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute fixed="Countries" name="Name" type="saj:ReferenceDataNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:restriction>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="DHA_PersonIdentityProfileType">
+      <xsd:annotation>
+         <xsd:documentation>Person Identity information as recorded by DHA, and referenced by the specific person's SA identity number, including DHA transaction information.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element ref="saj:DHA_Transaction"/>
+         <xsd:element maxOccurs="unbounded" ref="saj:PersonIdentityProfile"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="DHA_TransactionType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Transaction information from DHA.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="saj:TransactionType"/>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="IdentityDocumentTypeCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">ICS codeset type created for element 'IdentityDocumentType'.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:restriction base="saj:ReferenceDataType">
+            <xsd:attribute name="Type" type="saj:ReferenceDataTypeType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute fixed="IdentityDocumentType" name="Name" type="saj:ReferenceDataNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:restriction>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="ImageType">
+      <xsd:annotation>
+         <xsd:documentation source="model">A structure that describes a representation of an image.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="saj:BinaryType"/>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="MaritalStatusCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">ICS codeset type created for element 'PersonMaritalStatusCode'.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:restriction base="saj:ReferenceDataType">
+            <xsd:attribute name="Type" type="saj:ReferenceDataTypeType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute fixed="MaritalStatus" name="Name" type="saj:ReferenceDataNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:restriction>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="MaritalTypeCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">ICS codeset type created for element 'PersonMaritalTypeCode'.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:restriction base="saj:ReferenceDataType">
+            <xsd:attribute name="Type" type="saj:ReferenceDataTypeType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute fixed="MaritalType" name="Name" type="saj:ReferenceDataNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:restriction>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="PersonAssignedIdentityType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Identity information assigned to a person, including the unique document type, number and country of issue.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element ref="saj:IdentityDocumentType">
+            <xsd:annotation>
+               <xsd:documentation source="model">The ICS code for the identity document type.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element ref="saj:IdentityDocumentNumber">
+            <xsd:annotation>
+               <xsd:documentation source="model">The identity number associated with the identity document type.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element minOccurs="0" ref="saj:IdentityDocumentCountryCode">
+            <xsd:annotation>
+               <xsd:documentation source="model">The ICS code for the country of document issue.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="PersonGenderCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">ICS codeset type created for element 'PersonGenderCode'.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:restriction base="saj:ReferenceDataType">
+            <xsd:attribute name="Type" type="saj:ReferenceDataTypeType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute fixed="PersonGender" name="Name" type="saj:ReferenceDataNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:restriction>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="PersonIdentityProfileType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Person Identity information as recorded by DHA, and referenced by the specific person's SA identity number.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="saj:SuperType">
+            <xsd:sequence>
+               <xsd:element ref="saj:PersonName">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The name of the specific person.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" ref="saj:PersonFacialImage">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The digital image of the specifc person's face, as recorded by DHA. The image format is JPEG2000.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" maxOccurs="unbounded" ref="saj:PersonContactInformation">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">Contact details of the specific person.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element ref="saj:PersonBirthDate">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">Person birth date.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" ref="saj:PersonBirthCountryCode">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The ICS code identifying the country where the person was born.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element ref="saj:PersonLivingIndicator">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">An indicator of whether the person is alive or dead.  The indicator will be true if the person is alive and false if the person is dead.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" ref="saj:PersonDeathDate">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The date on which the person passed away.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element ref="saj:PersonGenderCode">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The ICS code identifying the gender of the person.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element ref="saj:PersonMaritalStatusCode">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The ICS code that indicates the marital status of the person.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" ref="saj:PersonMaritalTypeCode">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The ICS code identifying the type of marriage, if the specific person is married.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" ref="saj:PersonMarriageDate">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The date on which the person was married.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" maxOccurs="unbounded" ref="saj:PersonIdentification">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">Identity information assigned to a person, including the unique document type, number and country of issue.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" ref="saj:PersonResidentialAddress">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The last recorded residential address of the person.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element minOccurs="0" ref="saj:PersonPostalAddress">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The last recorded postal address of the person.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="PersonNameType">
+      <xsd:annotation>
+         <xsd:documentation source="model">A name by which a person is known.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element ref="saj:PersonSurname">
+            <xsd:annotation>
+               <xsd:documentation source="model">Person surname.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element minOccurs="0" maxOccurs="unbounded" ref="saj:PersonGivenName">
+            <xsd:annotation>
+               <xsd:documentation source="model">Person first or given name.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element minOccurs="0" ref="saj:PersonMaidenName">
+            <xsd:annotation>
+               <xsd:documentation source="model">The original surname of the person before changed by marriage.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ReferenceDataType">
+      <xsd:annotation>
+         <xsd:documentation source="model">IJS ICS reference data type.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:extension base="saj:ReferenceDataValueType">
+            <xsd:attribute name="Type" type="saj:ReferenceDataTypeType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Name" type="saj:ReferenceDataNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:extension>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="SouthAfricanProvincesCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">ICS codeset type created for element 'LocationProvinceCode'.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:restriction base="saj:ReferenceDataType">
+            <xsd:attribute name="Type" type="saj:ReferenceDataTypeType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute fixed="SouthAfricanProvinces" name="Name" type="saj:ReferenceDataNameType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:restriction>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="SuperType">
+      <xsd:annotation>
+         <xsd:documentation source="model">A structure that describes metadata common to most other structures.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:attribute ref="saj:id" use="prohibited">
+         <xsd:annotation>
+            <xsd:documentation source="model">ID value (XML schema ID-type) that can be used as a reference (XML schema IDREF) by another component.</xsd:documentation>
+         </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attributeGroup ref="saj:SuperTypeMetadata">
+         <xsd:annotation>
+            <xsd:documentation source="model">All metadata attributes that are applicable to global class types.</xsd:documentation>
+         </xsd:annotation>
+      </xsd:attributeGroup>
+   </xsd:complexType>
+   <xsd:complexType name="TransactionType">
+      <xsd:annotation>
+         <xsd:documentation source="model">A structure that describes details about a single transaction event.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="saj:SuperType">
+            <xsd:sequence>
+               <xsd:element ref="saj:TransactionID">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The unique ID for the transation.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+               <xsd:element ref="saj:TransactionDateTime">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The date and time of the transaction.</xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:element name="AddressLineText" type="saj:string">
+      <xsd:annotation>
+         <xsd:documentation source="model">Details about the address.  This can include the building detail, room number, street name, street number, etc.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="BinaryObject_Base64" type="saj:base64Binary">
+      <xsd:annotation>
+         <xsd:documentation source="model">A binary encoding of data, e.g., a binary encoding of a picture, photo, image, graphic, sound, or video.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="ContactDetailsText" type="saj:minLen1String">
+      <xsd:annotation>
+         <xsd:documentation source="model">Details of the contact information.This could the contact telephone number or email address. etc.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="ContactTypeCode" type="saj:ContactTypeCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The ICS code identifying the type of contact information.  For example, work telephone, cell phone, email, etc.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="DHA_PersonIdentityProfile" type="saj:DHA_PersonIdentityProfileType">
+      <xsd:annotation>
+         <xsd:documentation>Person Identity information as recorded by DHA, and referenced by the specific person's SA identity number, including DHA transaction information.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="DHA_Transaction" type="saj:DHA_TransactionType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Transaction information from DHA.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="IdentityDocumentCountryCode" type="saj:CountriesCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The ICS code for the country of document issue.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="IdentityDocumentNumber" type="saj:minLen1String">
+      <xsd:annotation>
+         <xsd:documentation source="model">The identity number associated with the identity document type.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="IdentityDocumentType" type="saj:IdentityDocumentTypeCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The ICS code for the identity document type.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="LocationPostalCode">
+      <xsd:annotation>
+         <xsd:documentation source="model">The numeric postal code of the address.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleType>
+         <xsd:restriction base="saj:string">
+            <xsd:length value="4"/>
+            <xsd:pattern value="\d{4}"/>
+         </xsd:restriction>
+      </xsd:simpleType>
+   </xsd:element>
+   <xsd:element name="LocationProvinceCode" type="saj:SouthAfricanProvincesCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The ICS code identifying the province of the address.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonBirthCountryCode" type="saj:CountriesCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The ICS code identifying the country where the person was born.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonBirthDate" type="saj:date">
+      <xsd:annotation>
+         <xsd:documentation source="model">Person birth date.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonContactInformation" type="saj:ContactInformationType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Contact details of the specific person.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonDeathDate" type="saj:date">
+      <xsd:annotation>
+         <xsd:documentation source="model">The date on which the person passed away.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonFacialImage" type="saj:ImageType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The digital image of the specifc person's face, as recorded by DHA. The image format is JPEG2000.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonGenderCode" type="saj:PersonGenderCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The ICS code identifying the gender of the person.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonGivenName" type="saj:string">
+      <xsd:annotation>
+         <xsd:documentation source="model">Person first or given name.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonIdentification" type="saj:PersonAssignedIdentityType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Identity information assigned to a person, including the unique document type, number and country of issue.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonIdentityProfile" type="saj:PersonIdentityProfileType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Person Identity information as recorded by DHA.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonLivingIndicator" type="saj:boolean">
+      <xsd:annotation>
+         <xsd:documentation source="model">An indicator of whether the person is alive or dead.  The indicator will be true if the person is alive and false if the person is dead.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonMaidenName" type="saj:string">
+      <xsd:annotation>
+         <xsd:documentation source="model">The original surname of the person before changed by marriage.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonMaritalStatusCode" type="saj:MaritalStatusCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The ICS code that indicates the marital status of the person.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonMaritalTypeCode" type="saj:MaritalTypeCodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The ICS code identifying the type of marriage, if the specific person is married.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonMarriageDate" type="saj:date">
+      <xsd:annotation>
+         <xsd:documentation source="model">The date on which the person was married.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonName" type="saj:PersonNameType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The name of the specific person.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonPostalAddress" type="saj:AddressType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The last recorded postal address of the person.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonResidentialAddress" type="saj:AddressType">
+      <xsd:annotation>
+         <xsd:documentation source="model">The last recorded residential address of the person.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="PersonSurname" type="saj:string">
+      <xsd:annotation>
+         <xsd:documentation source="model">Person surname.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="TransactionDateTime" type="saj:dateTime">
+      <xsd:annotation>
+         <xsd:documentation source="model">The date and time of the transaction.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="TransactionID" type="saj:token">
+      <xsd:annotation>
+         <xsd:documentation source="model">The unique ID for the transation.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:complexType name="DHA_ErrorType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Department of Home Affairs error.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent>
+         <xsd:extension base="saj:ErrorType">
+            <xsd:sequence>
+               <xsd:element ref="saj:ErrorCode">
+                  <xsd:annotation>
+                     <xsd:documentation source="model">The ICS Code that uniquely identifies the error that has occurred.  </xsd:documentation>
+                  </xsd:annotation>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="ErrorCodeDHACodeType">
+      <xsd:annotation>
+         <xsd:documentation source="model">ICS codeset type created for element 'ErrorCode'.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:restriction base="saj:ReferenceDataType">
+            <xsd:attribute name="Type" type="saj:ReferenceDataTypeType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set type. Only 'ICS_refdata' is valid.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Name" type="saj:ReferenceDataNameType" use="required" fixed="ErrorCodeDHA">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set name as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Version" type="saj:ReferenceDataVersionType" use="required">
+               <xsd:annotation>
+                  <xsd:documentation source="model">IJS ICS reference data set version as it appears in the ICS system.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:restriction>
+      </xsd:simpleContent>
+   </xsd:complexType>
+   <xsd:complexType name="ErrorType">
+      <xsd:annotation>
+         <xsd:documentation source="model">Generic error information.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent>
+         <xsd:extension base="saj:SuperType" />
+      </xsd:complexContent>
+   </xsd:complexType>
+	<xsd:element name="DHA_Error" type="saj:DHA_ErrorType">
+		<xsd:annotation>
+			<xsd:documentation source="model">Department of Home Affairs error.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="ErrorCode" type="saj:ErrorCodeDHACodeType">
+		<xsd:annotation>
+			<xsd:documentation source="model">The ICS Code that uniquely identifies the error that has occurred.  </xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

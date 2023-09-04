@@ -1,0 +1,59 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:tns="http://tempuri.org/"
+                  name="BizTalkServiceInstance"
+                  targetNamespace="http://tempuri.org/">
+   <wsdl:documentation>
+      <CreationInfo Created="2020-04-24 09:47:03Z"/>
+   </wsdl:documentation>
+   <wsdl:types>
+      <xsd:schema targetNamespace="http://tempuri.org/Imports">
+         <xsd:import schemaLocation="PersonIdentiyService-sajxdm2.xsd" namespace="http://ijs.gov.za/schemas/sajxdm/2.0.0"/>
+         <xsd:import schemaLocation="PersonIdentiyService-sajsip3.xsd" namespace="http://ijs.gov.za/schemas/sajsip/3.0.0"/>
+         <xsd:import schemaLocation="PersonIdentiyService-request.xsd" namespace="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/Request/1.0"/>
+         <xsd:import schemaLocation="PersonIdentiyService-response.xsd" namespace="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/Response/1.0"/>
+         <xsd:import schemaLocation="PersonIdentiyService-response-error.xsd" namespace="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/ResponseError/1.0"/>
+      </xsd:schema>
+      <xsd:import schemaLocation="PersonIdentiyService-response.xsd" namespace="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/Response/1.0"/>
+   </wsdl:types>
+   <wsdl:message name="PersonIdentiyService_opPersonIdentiyService_InputMessage">
+      <wsdl:part name="part" element="q1:PersonIdentityProfileRequest" xmlns:q1="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/Request/1.0"/>
+   </wsdl:message>
+   <wsdl:message name="PersonIdentiyService_opPersonIdentiyService_OutputMessage">
+      <wsdl:part name="part" element="q2:PersonIdentityProfileResponse" xmlns:q2="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/Response/1.0"/>
+   </wsdl:message>
+   <wsdl:message name="PersonIdentiyService_opPersonIdentiyService_ErrorMessage">
+      <wsdl:part name="part" element="q3:PersonIdentityProfileResponseError" xmlns:q3="http://ijs.gov.za/schemas/messages/PersonIdentityProfile/ResponseError/1.0"/>
+   </wsdl:message>
+   <wsdl:portType name="PersonIdentiyService">
+      <wsdl:documentation/>
+      <wsdl:operation name="opPersonIdentiyService">
+         <wsdl:documentation/>
+         <wsdl:input message="tns:PersonIdentiyService_opPersonIdentiyService_InputMessage"/>
+         <wsdl:output message="tns:PersonIdentiyService_opPersonIdentiyService_OutputMessage"/>
+         <wsdl:fault name="Error" message="tns:PersonIdentiyService_opPersonIdentiyService_ErrorMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="BasicHttpBinding_ITwoWayAsync" type="tns:PersonIdentiyService">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="opPersonIdentiyService">
+         <wsdl:documentation/>
+         <soap:operation soapAction="opPersonIdentiyService" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="Error">
+            <soap:fault name="Error" use="literal"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="BizTalkServiceInstance">
+      <wsdl:port name="BasicHttpBinding_ITwoWayAsync" binding="tns:BasicHttpBinding_ITwoWayAsync">
+         <soap:address location="http://ssvsbiztphc01.sassa.local:7080/PersonIdentiyEndpointService/PersonIdentiyService.svc"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

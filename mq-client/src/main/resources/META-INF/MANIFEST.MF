@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: 25.102-b14 (Oracle Corporation)
+Implementation-Vendor: Prosense
+Implementation-Title: mq-client
+Implementation-Version: 1.0
+Product-Name: mq-client
+Specification-Version: 1.0
+Extension-Name: mqclient

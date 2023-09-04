@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+    xmlns:tns="http://tempuri.org/"
+    xmlns:s="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:types>
+        <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+            <s:element name="QueryNIIS">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="FileNo" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="IDNo" type="s:string" />
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="QueryNIISResponse">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="QueryNIISResult" type="tns:NIISResults" />
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:complexType name="NIISResults">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="Results" type="tns:ArrayOfNIISDetails" />
+                </s:sequence>
+            </s:complexType>
+            <s:complexType name="ArrayOfNIISDetails">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="NIISDetails" nillable="true" type="tns:NIISDetails" />
+                </s:sequence>
+            </s:complexType>
+            <s:complexType name="NIISDetails">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="NIISFileNumber" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="Surname" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="Gender" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="BirthDate" type="s:string" />
+                    <s:element minOccurs="1" maxOccurs="1" name="Age" type="s:int" />
+                    <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="Nationality" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="AlternativeFileNumber" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="OfficeOfApplication" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="Status" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="PermitNumber" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="ExpiryDate" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="RefugeeIDNumber" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="1" name="Photo" type="s:base64Binary" />
+                </s:sequence>
+            </s:complexType>
+        </s:schema>
+    </wsdl:types>
+    <wsdl:message name="QueryNIISSoapIn">
+        <wsdl:part name="parameters" element="tns:QueryNIIS" />
+    </wsdl:message>
+    <wsdl:message name="QueryNIISSoapOut">
+        <wsdl:part name="parameters" element="tns:QueryNIISResponse" />
+    </wsdl:message>
+    <wsdl:portType name="NIISBankServiceSoap">
+        <wsdl:operation name="QueryNIIS">
+            <wsdl:input message="tns:QueryNIISSoapIn" />
+            <wsdl:output message="tns:QueryNIISSoapOut" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="NIISBankServiceSoap" type="tns:NIISBankServiceSoap">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="QueryNIIS">
+            <soap:operation soapAction="http://tempuri.org/QueryNIIS" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="NIISBankServiceSoap12" type="tns:NIISBankServiceSoap">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="QueryNIIS">
+            <soap12:operation soapAction="http://tempuri.org/QueryNIIS" style="document" />
+            <wsdl:input>
+                <soap12:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="NIISBankService">
+        <wsdl:port name="NIISBankServiceSoap" binding="tns:NIISBankServiceSoap">
+            <soap:address location="https://niisverfication.dha.gov.za/NIISPermitService/NIISBankService.asmx" />
+        </wsdl:port>
+        <wsdl:port name="NIISBankServiceSoap12" binding="tns:NIISBankServiceSoap12">
+            <soap12:address location="https://niisverfication.dha.gov.za/NIISPermitService/NIISBankService.asmx" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
